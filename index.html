@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Enzo 3D Car Game</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- MENU -->
+  <div id="menu" class="overlay">
+    <div class="panel">
+      <h1>Enzo 3D Car Game</h1>
+      <p class="subtitle">Drive, dodge, and collect coins.</p>
+
+      <div class="menuBtns">
+        <button id="startBtn" class="btn primary">Start</button>
+        <button id="creditsBtn" class="btn">Credits</button>
+      </div>
+
+      <div class="hint">
+        <div><b>PC:</b> A/D or ←/→ steer, W/↑ accelerate, S/↓ brake</div>
+        <div><b>Mobile:</b> use the on-screen buttons</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CREDITS MODAL -->
+  <div id="credits" class="overlay hidden">
+    <div class="panel">
+      <h2>Credits</h2>
+      <p>GameMaker: <b>Enzo</b></p>
+      <button id="backBtn" class="btn primary">Back</button>
+    </div>
+  </div>
+
+  <!-- HUD -->
+  <div class="hud">
+    <div class="hudLeft">
+      <div class="chip">Coins: <span id="coinCount">0</span></div>
+      <div class="chip">Score: <span id="score">0</span></div>
+    </div>
+
+    <button id="nightBtn" class="chip night">Night Mode</button>
+
+    <div class="speedo">
+      <div class="speedNum"><span id="speed">0</span></div>
+      <div class="speedLbl">KM/H</div>
+    </div>
+  </div>
+
+  <!-- MOBILE CONTROLS -->
+  <div class="mobileControls" id="mobileControls">
+    <button class="mBtn" data-act="left">⟵</button>
+    <button class="mBtn" data-act="right">⟶</button>
+    <button class="mBtn accel" data-act="up">▲</button>
+    <button class="mBtn brake" data-act="down">▼</button>
+  </div>
+
+  <canvas id="c"></canvas>
+
+  <!-- Three.js (CDN) -->
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
