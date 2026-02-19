@@ -2,65 +2,131 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Enzo 3D Car Game</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- MENU -->
-  <div id="menu" class="overlay">
-    <div class="panel">
-      <h1>Enzo 3D Car Game</h1>
-      <p class="subtitle">Drive, dodge, and collect coins.</p>
+  <div id="app">
+    <!-- MENU -->
+    <section id="menu" class="screen active">
+      <div class="menu-card">
+        <div class="title-wrap">
+          <h1 class="pixel-title">Enzo 3D Car Game</h1>
+          <p class="subtitle">Low-poly city drive • Coins • Shop • Night Mode</p>
+        </div>
 
-      <div class="menuBtns">
-        <button id="startBtn" class="btn primary">Start</button>
-        <button id="creditsBtn" class="btn">Credits</button>
+        <div class="btn-col">
+          <button id="btnStart" class="btn primary">Start</button>
+          <button id="btnShop" class="btn">Shop</button>
+          <button id="btnCredits" class="btn">Credits</button>
+        </div>
+
+        <div class="row space-between">
+          <button id="btnNightToggleMenu" class="btn small">Night Mode: <span id="nightLabelMenu">OFF</span></button>
+          <div class="tiny">
+            <span class="pill">A/D or ←/→</span>
+            <span class="pill">Mobile buttons</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GAME -->
+    <section id="game" class="screen">
+      <canvas id="gameCanvas" aria-label="Enzo 3D Car Game Canvas"></canvas>
+
+      <!-- HUD -->
+      <div id="hud">
+        <div class="hud-left">
+          <div class="hud-box">
+            <div class="hud-label">SCORE</div>
+            <div id="scoreText" class="hud-value">0</div>
+          </div>
+          <div class="hud-box">
+            <div class="hud-label">COINS</div>
+            <div id="coinsText" class="hud-value">0</div>
+          </div>
+        </div>
+
+        <div class="hud-right">
+          <div class="hud-box speedo">
+            <div class="hud-label">KM/H</div>
+            <div id="speedText" class="hud-value">0</div>
+            <div class="speedbar">
+              <div id="speedFill" class="speedfill"></div>
+            </div>
+          </div>
+          <button id="btnNightToggle" class="btn small">Night: <span id="nightLabel">OFF</span></button>
+        </div>
       </div>
 
-      <div class="hint">
-        <div><b>PC:</b> A/D or ←/→ steer, W/↑ accelerate, S/↓ brake</div>
-        <div><b>Mobile:</b> use the on-screen buttons</div>
+      <!-- MOBILE CONTROLS -->
+      <div id="mobileControls">
+        <button id="btnLeft" class="mbtn">◀</button>
+        <button id="btnRight" class="mbtn">▶</button>
+      </div>
+
+      <!-- PAUSE / GAME OVER STRIP -->
+      <div id="toast" class="toast hidden"></div>
+
+      <button id="btnBackToMenu" class="btn backbtn">⟵ Menu</button>
+    </section>
+
+    <!-- CREDITS MODAL -->
+    <div id="creditsModal" class="modal hidden" role="dialog" aria-modal="true">
+      <div class="modal-card">
+        <h2 class="pixel-h2">Credits</h2>
+        <p class="modal-text">GameMaker: <b>Enzo</b></p>
+        <button id="btnCreditsBack" class="btn primary">Back</button>
+      </div>
+    </div>
+
+    <!-- SHOP MODAL -->
+    <div id="shopModal" class="modal hidden" role="dialog" aria-modal="true">
+      <div class="modal-card wide">
+        <div class="row space-between align-center">
+          <h2 class="pixel-h2">Shop</h2>
+          <div class="tiny">
+            Coins: <span id="shopCoins" class="coin-number">0</span>
+          </div>
+        </div>
+
+        <div class="shop-grid">
+          <div class="shop-left">
+            <div class="panel">
+              <div class="panel-title">Car Color</div>
+              <div id="colorChoices" class="choices"></div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-title">Wheels</div>
+              <div id="wheelChoices" class="choices"></div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-title">Car Style (unlock with coins)</div>
+              <div id="styleChoices" class="choices"></div>
+              <div class="hint">Unlocks are saved automatically.</div>
+            </div>
+          </div>
+
+          <div class="shop-right">
+            <div class="preview-wrap">
+              <canvas id="previewCanvas" width="520" height="320"></canvas>
+              <div class="preview-caption">Preview (camera behind & above)</div>
+            </div>
+            <div class="row gap">
+              <button id="btnShopStart" class="btn primary">Start Game</button>
+              <button id="btnShopBack" class="btn">Back</button>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
 
-  <!-- CREDITS MODAL -->
-  <div id="credits" class="overlay hidden">
-    <div class="panel">
-      <h2>Credits</h2>
-      <p>GameMaker: <b>Enzo</b></p>
-      <button id="backBtn" class="btn primary">Back</button>
-    </div>
-  </div>
-
-  <!-- HUD -->
-  <div class="hud">
-    <div class="hudLeft">
-      <div class="chip">Coins: <span id="coinCount">0</span></div>
-      <div class="chip">Score: <span id="score">0</span></div>
-    </div>
-
-    <button id="nightBtn" class="chip night">Night Mode</button>
-
-    <div class="speedo">
-      <div class="speedNum"><span id="speed">0</span></div>
-      <div class="speedLbl">KM/H</div>
-    </div>
-  </div>
-
-  <!-- MOBILE CONTROLS -->
-  <div class="mobileControls" id="mobileControls">
-    <button class="mBtn" data-act="left">⟵</button>
-    <button class="mBtn" data-act="right">⟶</button>
-    <button class="mBtn accel" data-act="up">▲</button>
-    <button class="mBtn brake" data-act="down">▼</button>
-  </div>
-
-  <canvas id="c"></canvas>
-
-  <!-- Three.js (CDN) -->
-  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
   <script src="game.js"></script>
 </body>
 </html>
